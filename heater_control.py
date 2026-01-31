@@ -8,11 +8,17 @@ from flask import Flask, render_template, request, jsonify
 import threading
 import time
 from datetime import datetime
+import tinytuya
 
 app = Flask(__name__)
 
 def C2F(t):
     return t * 9 / 5 + 32
+
+DEVICE_ID, DEVICE_IP, LOCAL_KEY = open("./plug_creds.txt").read().split()
+
+SMART_PLUG = tinytuya.OutletDevice(DEVICE_ID, DEVICE_IP, LOCAL_KEY)
+SMART_PLUG.set_version(3.5)
 
 # Configuration
 class HeaterConfig:
@@ -74,6 +80,10 @@ def control_heater(turn_on):
     # Simulated control - replace with actual smart plug code
     print(f"Heater turned {'ON' if turn_on else 'OFF'}")
     config.heater_on = turn_on
+    if turn_on:
+        SMART_PLUG.turn_on()
+    else:
+        SMART_PLUG.turn_off()
 
 # Background temperature monitoring thread
 def temperature_monitor():
