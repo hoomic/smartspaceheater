@@ -70,8 +70,7 @@ def control_heater(turn_on):
     """
     # Simulated control - replace with actual smart plug code
     print(f"Heater turned {'ON' if turn_on else 'OFF'}")
-    with config.lock:
-        config.heater_on = turn_on
+    config.heater_on = turn_on
 
 # Background temperature monitoring thread
 def temperature_monitor():
@@ -129,7 +128,7 @@ def set_target():
     """Set target temperature"""
     data = request.json
     target = float(data.get('target', 22))
-    
+        
     # Validate temperature range (10-30°C)
     if 10 <= target <= 30:
         with config.lock:
