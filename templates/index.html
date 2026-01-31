@@ -329,7 +329,7 @@
         // Adjust target temperature
         async function adjustTarget(change) {
             const newTarget = currentTargetTemp + change;
-            if (newTarget < 10 || newTarget > 30) return;
+            if (newTarget < 55 || newTarget > 85) return;
             
             try {
                 const response = await fetch('/api/set_target', {
