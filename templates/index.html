@@ -293,11 +293,11 @@
                 const data = await response.json();
                 
                 // Update current temperature
-                document.getElementById('currentTemp').textContent = data.current_temp + '°C';
+                document.getElementById('currentTemp').textContent = data.current_temp + '°F';
                 
                 // Update target temperature
                 currentTargetTemp = data.target_temp;
-                document.getElementById('targetTemp').textContent = data.target_temp + '°C';
+                document.getElementById('targetTemp').textContent = data.target_temp + '°F';
                 
                 // Update heater status
                 const statusDot = document.getElementById('statusDot');
@@ -416,7 +416,7 @@
                 bar.className = 'chart-bar';
                 const heightPercent = ((reading.temp - minTemp) / range) * 100;
                 bar.style.height = heightPercent + '%';
-                bar.title = reading.temp + '°C at ' + reading.time;
+                bar.title = reading.temp + '°F at ' + reading.time;
                 chart.appendChild(bar);
             });
         }

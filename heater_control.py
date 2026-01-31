@@ -11,11 +11,14 @@ from datetime import datetime
 
 app = Flask(__name__)
 
+def C2F(t):
+    return t * 9 / 5 + 32
+
 # Configuration
 class HeaterConfig:
     def __init__(self):
-        self.current_temp = 20.0  # Current temperature in Celsius
-        self.target_temp = 22.0   # Target temperature in Celsius
+        self.current_temp = 64.0  # Current temperature in Fahrenheit
+        self.target_temp = 66.0   # Target temperature in Fahrenheit
         self.heater_on = False    # Heater state
         self.auto_mode = True     # Automatic control enabled
         self.temp_history = []    # Temperature history
@@ -130,12 +133,12 @@ def set_target():
     target = float(data.get('target', 22))
         
     # Validate temperature range (10-30°C)
-    if 10 <= target <= 30:
+    if 50 <= target <= 85:
         with config.lock:
             config.target_temp = target
         return jsonify({'success': True, 'target_temp': target})
     else:
-        return jsonify({'success': False, 'error': 'Temperature must be between 10-30°C'}), 400
+        return jsonify({'success': False, 'error': 'Temperature must be between 50-85°F'}), 400
 
 @app.route('/api/set_mode', methods=['POST'])
 def set_mode():
