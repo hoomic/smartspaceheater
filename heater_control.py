@@ -9,6 +9,8 @@ import threading
 import time
 from datetime import datetime
 import tinytuya
+import board
+import adafruit_dht
 
 app = Flask(__name__)
 
@@ -19,6 +21,8 @@ DEVICE_ID, DEVICE_IP, LOCAL_KEY = open("./plug_creds.txt").read().split()
 
 SMART_PLUG = tinytuya.OutletDevice(DEVICE_ID, DEVICE_IP, LOCAL_KEY)
 SMART_PLUG.set_version(3.5)
+
+TEMP_SENSOR = adafruit_dht.DHT11(board.D4)
 
 # Configuration
 class HeaterConfig:
@@ -54,8 +58,7 @@ def read_temperature():
     return None
     """
     # Simulated temperature reading - replace with actual sensor
-    import random
-    return config.current_temp + random.uniform(-0.5, 0.5)
+    return C2F(TEMP_SENSOR.temperature)
 
 # Smart plug interface (replace with your actual smart plug control code)
 def control_heater(turn_on):
